@@ -1,4 +1,4 @@
-name: Auto Run Python Script
+name: Auto VPS Extend
 
 on:
   workflow_dispatch:
@@ -10,18 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Files
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install Requirements
-        run: |
-          pip install -r requirements.txt
+      - run: pip install -r requirements.txt
 
       - name: Run Script
-        run: |
-          python vps.py
+        env:
+          LABS_INSTANCE_NAME: ${{ secrets.LABS_INSTANCE_NAME }}
+          DASHBOARD_TOKEN: ${{ secrets.DASHBOARD_TOKEN }}
+          CF_CLEARANCE: ${{ secrets.CF_CLEARANCE }}
+          BASE_URL: ${{ secrets.BASE_URL }}
+          EXTEND_INTERVAL_MINUTES: ${{ secrets.EXTEND_INTERVAL_MINUTES }}
+        run: python vps.py
