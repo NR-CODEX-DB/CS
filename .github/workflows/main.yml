@@ -1,5 +1,8 @@
 name: Auto VPS Extend
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   workflow_dispatch:
   schedule:
@@ -18,11 +21,9 @@ jobs:
 
       - run: pip install -r requirements.txt
 
-      - name: Run Script
+      - run: python vps.py
         env:
           LABS_INSTANCE_NAME: ${{ secrets.LABS_INSTANCE_NAME }}
           DASHBOARD_TOKEN: ${{ secrets.DASHBOARD_TOKEN }}
           CF_CLEARANCE: ${{ secrets.CF_CLEARANCE }}
-          BASE_URL: ${{ secrets.BASE_URL }}
-          EXTEND_INTERVAL_MINUTES: ${{ secrets.EXTEND_INTERVAL_MINUTES }}
-        run: python vps.py
+          BASE_URL: https://gcp.2z2.top
